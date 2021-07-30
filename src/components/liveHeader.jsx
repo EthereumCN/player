@@ -115,7 +115,7 @@ const LiveHeader = ({ data }) => {
           cursor="pointer"
           mr="2rem"
           onClick={() => {
-            console.log(account);
+            window.open("https://ethereum.us2.list-manage.com/subscribe/post?u=ab5eff800c44ca67b27f1581f&id=b6319ace8c", "_blank").focus();
           }}
         />
 
