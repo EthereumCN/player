@@ -69,8 +69,8 @@ const Live = ({ data }) => {
 
         <ReactPlayer
           className="react-player"
-          // url={data.allHomepages[0].videoSource}
-          url={"https://www.youtube.com/watch?v=ysz5S6PUM-U"}
+          url={data.allHomepages[0].videoSource}
+          // url={"https://www.youtube.com/watch?v=ysz5S6PUM-U"}
           width="100%"
           height="92vh"
           playing={true}
