@@ -30,8 +30,8 @@ const Render = ({ days, hours, minutes, seconds, data }) => {
           as={GiAlarmClock}
           cursor="pointer"
         />{" "}
-        <Box fontSize="30px">
-          &nbsp; {days} 天 {hours}小时 {minutes}分
+        <Box fontSize={{base:"23px",sm:"30px"}}>
+          &nbsp; {days} 天 {hours}小时 {minutes}分  {seconds}秒
         </Box>
       </Flex>
 

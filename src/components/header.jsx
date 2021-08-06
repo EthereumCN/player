@@ -20,13 +20,14 @@ import {
 import { useWeb3 } from "../utils/helper/web3";
 import { BsFillCollectionPlayFill, BsBookmarkPlus } from "react-icons/bs";
 import { BiWallet } from "react-icons/bi";
+import { useRouter } from "next/router";
 import Image from "next/image";
 
 const Header = ({ data }) => {
   // 登录钱包等设置
   const { active, balance, activate, deactivate, account, provider, pending } =
     useWeb3();
-
+  const router = useRouter();
   return (
     // <div
     //   style={{
@@ -40,9 +41,10 @@ const Header = ({ data }) => {
     // >
     <Flex h="75px" px={6} alignItems="center" justifyContent="space-between">
       <Box display={{ base: "block", lg: "none" }} w="2rem" />
-      <Flex>
-        <Image src="/ecn.png" alt="ecn" width={75} height={50} />
-
+      <Flex alignItems="center">
+        <Box as="span" onClick={() => router.push("/")} cursor="pointer">
+          <Image src="/ecn.png" alt="ecn" width={75} height={50} />
+        </Box>
         {data === "none" ? (
           <></>
         ) : (
@@ -100,6 +102,7 @@ const Header = ({ data }) => {
           as={BsFillCollectionPlayFill}
           cursor="pointer"
           mr="2rem"
+          onClick={() => router.push("/list")}
         />
 
         <Icon
@@ -110,20 +113,29 @@ const Header = ({ data }) => {
           cursor="pointer"
           mr="2rem"
           onClick={() => {
-            window.open("https://ethereum.us2.list-manage.com/subscribe/post?u=ab5eff800c44ca67b27f1581f&id=b6319ace8c", "_blank").focus();
+            window
+              .open(
+                "https://ethereum.us2.list-manage.com/subscribe/post?u=ab5eff800c44ca67b27f1581f&id=b6319ace8c",
+                "_blank"
+              )
+              .focus();
           }}
         />
 
         {(!active || !account) && (
-          <Icon
-            display={{ base: "none", lg: "inline-block" }}
-            onClick={activate}
-            as={BiWallet}
-            fontSize="1.8rem"
-            color="#bfbfbf"
-            cursor="pointer"
-            mr="2rem"
-          />
+          // <Icon
+          //   display={{ base: "none", lg: "inline-block" }}
+          //   onClick={activate}
+          //   as={BiWallet}
+          //   fontSize="1.8rem"
+          //   color="#bfbfbf"
+          //   cursor="pointer"
+          //   mr="2rem"
+          // />
+
+          <Box as="span" cursor="pointer" onClick={activate}>
+            Login
+          </Box>
         )}
 
         {active && account && (

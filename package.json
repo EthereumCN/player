@@ -28,6 +28,7 @@
     "remark-gfm": "^1.0.0"
   },
   "devDependencies": {
+    "axios": "^0.21.1",
     "eslint": "7.31.0",
     "eslint-config-next": "11.0.1"
   }

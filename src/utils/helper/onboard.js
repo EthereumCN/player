@@ -4,7 +4,7 @@ import { Web3Provider } from "@ethersproject/providers";
 import { Web3Context } from "./web3";
 import Notify from "bnc-notify";
 
-const NetworkId = 42;
+const NetworkId = 1;
 const rpcUrl = "https://kovan.infura.io/v3/cea9deb6467748b0b81b920b005c10c1";
 const dappId = "40d1d82f-13f7-444a-ba2d-c2e3e44ce423";
 

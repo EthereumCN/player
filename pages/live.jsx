@@ -15,6 +15,16 @@ import {
   Td,
   Tfoot,
   TableCaption,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { BsFillCollectionPlayFill, BsBookmarkPlus } from "react-icons/bs";
@@ -25,6 +35,8 @@ import { request } from "../lib/datocms";
 import Router from "next/router";
 import Image from "next/image";
 import LiveHeader from "../src/components/liveHeader";
+import { useWeb3 } from "../src/utils/helper/web3";
+import axios from "axios";
 
 const HOMEPAGE_QUERY = `query MyQuery {
     allHomepages(orderBy: _createdAt_DESC, first: "1") {
@@ -61,6 +73,14 @@ const Live = ({ data }) => {
   const gfm = require("remark-gfm");
   const rehypeRaw = require("rehype-raw");
 
+  // 登录钱包等设置
+  const { active, balance, activate, deactivate, account, provider, pending } =
+    useWeb3();
+
+  const toast = useToast();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box as="main" minH="100vh" h="100%" bgColor="#F2F2F2">
       {/* {console.log(data.allHomepages[0].timestamp)} */}
@@ -69,7 +89,10 @@ const Live = ({ data }) => {
 
         <ReactPlayer
           className="react-player"
-          url={data.allHomepages[0].videoSource}
+          // url={data.allHomepages[0].videoSource}
+          url={
+            "rtmp://pc041b116.live.126.net/live/ffca1e305b5c4cb991f31e2df0c9c9f9?wsSecret=9a0835ed508d2d72fafde570e91b7cf5&wsTime=1627699173"
+          }
           // url={"https://www.youtube.com/watch?v=ysz5S6PUM-U"}
           width="100%"
           height="92vh"
@@ -122,6 +145,78 @@ const Live = ({ data }) => {
               tbody: ({ node, ...props }) => <Tbody {...props} />,
               td: ({ node, ...props }) => <Td {...props} />,
               tfoot: ({ node, ...props }) => <Tfoot {...props} />,
+              var: ({ node, ...props }) => (
+                <>
+                  {(!active || !account) && (
+                    <Box
+                      as="span"
+                      float="right"
+                      mr="1.5rem"
+                      display={{ base: "inline-block", lg: "none" }}
+                      cursor="pointer"
+                      onClick={activate}
+                      fontSize="14px"
+                    >
+                      🎁
+                    </Box>
+                  )}
+
+                  {active && account && (
+                    <>
+                      <Box  
+                      display={{ base: "inline-block", lg: "none" }} 
+                      cursor="pointer" 
+                      float="right"
+                      mr="1.5rem"
+                      fontSize="14px"
+                      onClick={onOpen}> 点击领取 </Box>
+
+                      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+                        <ModalOverlay />
+                        <ModalContent>
+                          <ModalHeader>
+                            你好，{account.substr(account.length - 4)}
+                          </ModalHeader>
+                          <ModalCloseButton />
+                          <ModalBody fontSize="1.5rem">
+                            点击领取poap ==&gt;
+                            <Box
+                              as="span"
+                              onClick={() => {
+                                axios({
+                                  method: "get",
+                                  url:
+                                    "http://172.104.101.79:3000/getAddress?address=" +
+                                    account,
+                                })
+                                  .then((response) => {
+                                    console.log(response);
+                                    toast({
+                                      title: "通知.",
+                                      description: "领取成功",
+                                      status: "success",
+                                      duration: 9000,
+                                      isClosable: true,
+                                    });
+                                  })
+                                  .catch((error) => {
+                                    console.log(error);
+                                  });
+                              }}
+                              cursor="pointer"
+                            >
+                              &nbsp; 🎁 &nbsp;
+                            </Box>
+                          </ModalBody>
+                          <ModalFooter>
+                            <Button onClick={deactivate}>Logout</Button>
+                          </ModalFooter>
+                        </ModalContent>
+                      </Modal>
+                    </>
+                  )}
+                </>
+              ),
             }}
           />
         </Box>

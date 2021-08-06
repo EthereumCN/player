@@ -8,24 +8,38 @@ import {
   Link,
   Avatar,
   Heading,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  Tfoot,
-  TableCaption,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  useToast,
 } from "@chakra-ui/react";
 import { useWeb3 } from "../utils/helper/web3";
 import { BsFillCollectionPlayFill, BsBookmarkPlus } from "react-icons/bs";
 import { BiWallet } from "react-icons/bi";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import axios from "axios";
+
+let randomNum = (m, n) => {
+  var num = Math.floor(Math.random() * (m - n) + n);
+  return num;
+};
 
 const LiveHeader = ({ data }) => {
   // 登录钱包等设置
   const { active, balance, activate, deactivate, account, provider, pending } =
     useWeb3();
+
+  const toast = useToast();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
 
   return (
     // <div
@@ -45,9 +59,10 @@ const LiveHeader = ({ data }) => {
       justifyContent="space-between"
       display={{ base: "none", lg: "flex" }}
     >
-      <Flex>
-        <Image src="/ecn.png" alt="ecn" width={75} height={50} />
-
+      <Flex alignItems="center">
+        <Box as="span" onClick={() => router.push("/")} cursor="pointer">
+          <Image src="/ecn.png" alt="ecn" width={75} height={50} />
+        </Box>
         {data === "none" ? (
           <></>
         ) : (
@@ -105,6 +120,7 @@ const LiveHeader = ({ data }) => {
           as={BsFillCollectionPlayFill}
           cursor="pointer"
           mr="2rem"
+          onClick={() => router.push("/list")}
         />
 
         <Icon
@@ -115,31 +131,82 @@ const LiveHeader = ({ data }) => {
           cursor="pointer"
           mr="2rem"
           onClick={() => {
-            window.open("https://ethereum.us2.list-manage.com/subscribe/post?u=ab5eff800c44ca67b27f1581f&id=b6319ace8c", "_blank").focus();
+            window
+              .open(
+                "https://ethereum.us2.list-manage.com/subscribe/post?u=ab5eff800c44ca67b27f1581f&id=b6319ace8c",
+                "_blank"
+              )
+              .focus();
           }}
         />
 
         {(!active || !account) && (
-          <Icon
+          <Box
+            as="span"
             display={{ base: "none", lg: "inline-block" }}
             onClick={activate}
-            as={BiWallet}
-            fontSize="1.8rem"
-            color="#bfbfbf"
             cursor="pointer"
-            mr="2rem"
-          />
+          >
+            Login
+          </Box>
         )}
 
         {active && account && (
-          <Avatar
-            display={{ base: "none", lg: "inline-block" }}
-            size="sm"
-            // name="Dan Abrahmov"
-            name={"user"}
-            src=""
-            // src="https://bit.ly/dan-abramov"
-          />
+          <>
+            <Avatar
+              cursor="pointer"
+              colorScheme="orange"
+              display={{ base: "none", lg: "inline-block" }}
+              size="sm"
+              // name="Dan Abrahmov"
+              name={"u" + randomNum(0, 100000000)}
+              src=""
+              onClick={onOpen}
+            />
+
+            <Modal onClose={onClose} isOpen={isOpen} isCentered>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>
+                  你好，{account.substr(account.length - 4)}
+                </ModalHeader>
+                <ModalCloseButton />
+                <ModalBody fontSize="1.5rem">
+                  点击领取poap ==&gt;
+                  <Box
+                    as="span"
+                    onClick={() => {
+                      axios({
+                        method: "get",
+                        url:
+                          "http://172.104.101.79:3000/getAddress?address=" +
+                          account,
+                      })
+                        .then((response) => {
+                          console.log(response);
+                          toast({
+                            title: "通知.",
+                            description: "领取成功",
+                            status: "success",
+                            duration: 9000,
+                            isClosable: true,
+                          });
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        });
+                    }}
+                    cursor="pointer"
+                  >
+                    &nbsp; 🎁 &nbsp;
+                  </Box>
+                </ModalBody>
+                <ModalFooter>
+                  <Button onClick={deactivate}>Logout</Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </>
         )}
       </Box>
       {/* </div> */}
