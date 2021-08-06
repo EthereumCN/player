@@ -109,10 +109,11 @@ const Live = ({ data }) => {
               // Map `h1` (`# heading`) to use `h2`s.
               h1: ({ node, ...props }) => (
                 <Box
+                  alignItems="center"
                   as="h1"
                   fontWeight="700"
                   mt="1rem"
-                  fontSize="24px"
+               
                   {...props}
                 />
               ),
@@ -150,12 +151,12 @@ const Live = ({ data }) => {
                   {(!active || !account) && (
                     <Box
                       as="span"
-                      float="right"
                       mr="1.5rem"
                       display={{ base: "inline-block", lg: "none" }}
                       cursor="pointer"
                       onClick={activate}
-                      fontSize="14px"
+                      fontSize="15px"
+                      float="right"
                     >
                       🎁
                     </Box>
@@ -163,13 +164,18 @@ const Live = ({ data }) => {
 
                   {active && account && (
                     <>
-                      <Box  
-                      display={{ base: "inline-block", lg: "none" }} 
-                      cursor="pointer" 
-                      float="right"
-                      mr="1.5rem"
-                      fontSize="14px"
-                      onClick={onOpen}> 点击领取 </Box>
+                      <Box
+                       as="span"
+                        display={{ base: "inline-block", lg: "none" }}
+                        cursor="pointer"
+                        mr="1.5rem"
+                        fontSize="15px"
+                        float="right"
+                        onClick={onOpen}
+                      >
+                        {" "}
+                        点击领取{" "}
+                      </Box>
 
                       <Modal onClose={onClose} isOpen={isOpen} isCentered>
                         <ModalOverlay />
@@ -182,6 +188,7 @@ const Live = ({ data }) => {
                             点击领取poap ==&gt;
                             <Box
                               as="span"
+                              fontSize="20px"
                               onClick={() => {
                                 axios({
                                   method: "get",
