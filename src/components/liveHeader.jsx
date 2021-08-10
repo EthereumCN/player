@@ -179,7 +179,7 @@ const LiveHeader = ({ data }) => {
                       axios({
                         method: "get",
                         url:
-                          "http://172.104.101.79:3000/getAddress?address=" +
+                          "https://poap.gifts.ethereum.cn/poap/getAddress?address=" +
                           account,
                       })
                         .then((response) => {
