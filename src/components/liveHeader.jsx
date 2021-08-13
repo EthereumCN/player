@@ -177,24 +177,47 @@ const LiveHeader = ({ data }) => {
                     as="span"
                     onClick={() => {
                       axios({
-                        method: "get",
-                        url:
-                          "https://poap.gifts.ethereum.cn/poap/getAddress?address=" +
-                          account,
-                      })
-                        .then((response) => {
-                          console.log(response);
+                        url: "https://graphql.us.fauna.com/graphql",
+                        method: "post",
+                        headers: {
+                          Authorization: `Basic Zm5BRVFlSkg5QUFBUU5MUGtlLV9RUC1FR0tfWk0tdlZWU21CZDd6Szo=`,
+                        },
+                        data: {
+                          query: `
+                          query obtain {
+                            obtain(user: "${account}" ){
+                              title
+                              user
+                            }
+                          }
+                            `,
+                        },
+                      }).then((response) => {
+                        if (response.data.data !== undefined) {
                           toast({
                             title: "通知.",
-                            description: "领取成功",
+                            description: "领取成功，正在跳转",
                             status: "success",
                             duration: 9000,
                             isClosable: true,
                           });
-                        })
-                        .catch((error) => {
-                          console.log(error);
-                        });
+
+                          setTimeout(function () {
+                            window
+                              .open(response.data.data.obtain.title, "_blank")
+                              .focus();
+                          }, 3000);
+
+                        } else {
+                          toast({
+                            title: "通知.",
+                            description: "领取失败",
+                            status: "error",
+                            duration: 9000,
+                            isClosable: true,
+                          });
+                        }
+                      });
                     }}
                     cursor="pointer"
                   >
