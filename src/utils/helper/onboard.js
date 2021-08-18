@@ -2,17 +2,16 @@ import React, { useCallback, useMemo, useState } from "react";
 import Onboard from "bnc-onboard";
 import { Web3Provider } from "@ethersproject/providers";
 import { Web3Context } from "./web3";
-import Notify from "bnc-notify";
 
 const NetworkId = 1;
-const rpcUrl = "https://kovan.infura.io/v3/cea9deb6467748b0b81b920b005c10c1";
-const dappId = "40d1d82f-13f7-444a-ba2d-c2e3e44ce423";
+const rpcUrl = "https://mainnet.infura.io/v3/0d5c59884b174b8e878c0789b6daf2d1";
+const dappId = "adc2d87f-63d6-4219-8649-f709eb1603d0";
 
 const wallets = [
   { walletName: "metamask" },
   {
     walletName: "walletConnect",
-    infuraKey: "cea9deb6467748b0b81b920b005c10c1",
+    infuraKey: "0d5c59884b174b8e878c0789b6daf2d1",
   },
   // {
   //   walletName: "ledger",
@@ -79,15 +78,7 @@ export default function Web3ContextProvider({ children }) {
     [setActive, setProvider, setLibrary, setAccount, setBalance, setNetwork]
   );
 
-  const notify = useMemo(
-    () =>
-      Notify({
-        dappId: "",
-        networkId: NetworkId,
-        desktopPosition: "topRight",
-      }),
-    []
-  );
+
 
   const activate = useCallback(() => {
     setPending(true);
@@ -116,7 +107,6 @@ export default function Web3ContextProvider({ children }) {
         balance,
         onboard,
         network,
-        notify,
         activate,
         deactivate,
         pending,

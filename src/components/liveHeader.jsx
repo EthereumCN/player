@@ -144,7 +144,10 @@ const LiveHeader = ({ data }) => {
           <Box
             as="span"
             display={{ base: "none", lg: "inline-block" }}
-            onClick={activate}
+            onClick={() => {
+              activate();
+              console.log(account);
+            }}
             cursor="pointer"
           >
             Login
@@ -153,6 +156,7 @@ const LiveHeader = ({ data }) => {
 
         {active && account && (
           <>
+          {console.log(account)}
             <Avatar
               cursor="pointer"
               colorScheme="orange"
@@ -196,9 +200,9 @@ const LiveHeader = ({ data }) => {
                         if (response.data.data !== undefined) {
                           toast({
                             title: "通知.",
-                            description: "领取成功，正在跳转",
+                            description: '领取成功，正在尝试跳转，若无法跳转请复制后点击跳转' + response.data.data.obtain.title,
                             status: "success",
-                            duration: 9000,
+                            duration: null,
                             isClosable: true,
                           });
 
@@ -207,7 +211,6 @@ const LiveHeader = ({ data }) => {
                               .open(response.data.data.obtain.title, "_blank")
                               .focus();
                           }, 3000);
-
                         } else {
                           toast({
                             title: "通知.",
