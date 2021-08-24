@@ -88,7 +88,7 @@ const Header = ({ data }) => {
                 color="#000"
                 mt={2}
               >
-                Live
+                Live  
               </Text>
             </Flex>
           </Box>

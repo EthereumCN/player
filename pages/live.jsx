@@ -37,6 +37,7 @@ import Image from "next/image";
 import LiveHeader from "../src/components/liveHeader";
 import { useWeb3 } from "../src/utils/helper/web3";
 import axios from "axios";
+import Amount from '../src/components/amount';
 
 const HOMEPAGE_QUERY = `query MyQuery {
     allHomepages(orderBy: _createdAt_DESC, first: "1") {
@@ -112,7 +113,6 @@ const Live = ({ data }) => {
                   as="h1"
                   fontWeight="700"
                   mt="1rem"
-               
                   {...props}
                 />
               ),
@@ -145,6 +145,31 @@ const Live = ({ data }) => {
               tbody: ({ node, ...props }) => <Tbody {...props} />,
               td: ({ node, ...props }) => <Td {...props} />,
               tfoot: ({ node, ...props }) => <Tfoot {...props} />,
+              live: ({ node, ...props }) => (
+                <Flex  display={{ base: "flex", lg: "none" }}>
+                  <Box
+                    w="13px"
+                    ml={6}
+                    mt={3}
+                    h="13px"
+                    bgColor="#E90000"
+                    borderRadius="50%"
+                  />
+
+                  <Text
+                    fontSize="14px"
+                    ml={4}
+                    alignItems="center"
+                    lineHeight="21px"
+                    color="#000"
+                    mt={2}
+                  >
+                    Live
+                  </Text>
+
+                  <Amount />
+                </Flex>
+              ),
               var: ({ node, ...props }) => (
                 <>
                   {(!active || !account) && (
@@ -164,7 +189,7 @@ const Live = ({ data }) => {
                   {active && account && (
                     <>
                       <Box
-                       as="span"
+                        as="span"
                         display={{ base: "inline-block", lg: "none" }}
                         cursor="pointer"
                         mr="1.5rem"
@@ -209,18 +234,22 @@ const Live = ({ data }) => {
                                   if (response.data.data !== undefined) {
                                     toast({
                                       title: "通知.",
-                                      description: '领取成功，正在尝试跳转，若无法跳转请复制后点击跳转' + response.data.data.obtain.title,
+                                      description:
+                                        "领取成功，正在尝试跳转，若无法跳转请复制后点击跳转" +
+                                        response.data.data.obtain.title,
                                       status: "success",
                                       duration: null,
                                       isClosable: true,
                                     });
-          
+
                                     setTimeout(function () {
                                       window
-                                        .open(response.data.data.obtain.title, "_blank")
+                                        .open(
+                                          response.data.data.obtain.title,
+                                          "_blank"
+                                        )
                                         .focus();
                                     }, 3000);
-          
                                   } else {
                                     toast({
                                       title: "通知.",
