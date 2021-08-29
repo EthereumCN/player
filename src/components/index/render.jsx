@@ -7,6 +7,7 @@ import {
   Text,
   Icon,
   Avatar,
+  Center,
 } from "@chakra-ui/react";
 import { BsFillCollectionPlayFill, BsBookmarkPlus } from "react-icons/bs";
 import { GiAlarmClock } from "react-icons/gi";
@@ -69,12 +70,13 @@ const Render = ({ days, hours, minutes, seconds, data }) => {
               fontWeight="bold"
               // minW="910px"
               // minH="457px"
+              boxShadow="3px 7px 5px 2px #888"
               w="100%"
               margin="0 auto"
               mt={7}
               zIndex="1"
               bgColor="#fff"
-              borderRadius="15px 15px 0px 0px;"
+              borderRadius="15px"
               {...props}
             />
           ),
@@ -88,7 +90,7 @@ const Render = ({ days, hours, minutes, seconds, data }) => {
                 margin="0 auto"
                 mt={7}
                 zIndex="1"
-                bgColor="#fff"
+                // bgColor="#fff"
                 borderRadius="15px 15px 15px 15px;"
                 {...props}
               />
@@ -112,6 +114,26 @@ const Render = ({ days, hours, minutes, seconds, data }) => {
                 &nbsp; {props.children[0]}
               </Tag>
               {/* <Modals /> */}
+            </Link>
+          ),
+          phone: ({ node, ...props }) => (
+            <Link
+              display={{ base: "block", lg: "none" }}
+              _hover={{ textDecoration: "none" }}
+              isExternal
+              href="https://ethereum.us2.list-manage.com/subscribe/post?u=ab5eff800c44ca67b27f1581f&amp;id=b6319ace8c"
+            >
+              <Flex
+                alignItems="center"
+                justifyContent="center"
+                mt="2rem"
+                fontSize="14px"
+                fontWeight="400"
+                cursor="pointer"
+              >
+                <Image src="/arrow.svg" alt="ecn" width={20} height={20} />
+                <Box>&nbsp; Stay tuned</Box>
+              </Flex>
             </Link>
           ),
         }}
