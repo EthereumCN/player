@@ -42,8 +42,14 @@ const Header = ({ data }) => {
     <Flex h="75px" px={6} alignItems="center" justifyContent="space-between">
       <Box display={{ base: "block", lg: "none" }} w="2rem" />
       <Flex alignItems="center">
-        <Box as="span" onClick={() => router.push("/")} cursor="pointer">
-          <Image src="/ecn.png" alt="ecn" width={75} height={50} />
+        <Box
+          as="span"
+          onClick={() => {
+            window.open("https://ethereum.cn", "_blank").focus();
+          }}
+          cursor="pointer"
+        >
+          <Image src="/ecn.png" alt="ecn" width={100} height={95} />
         </Box>
         {data === "none" ? (
           <></>
@@ -88,7 +94,7 @@ const Header = ({ data }) => {
                 color="#000"
                 mt={2}
               >
-                Live  
+                Live
               </Text>
             </Flex>
           </Box>
@@ -143,9 +149,8 @@ const Header = ({ data }) => {
             display={{ base: "none", lg: "inline-block" }}
             size="sm"
             // name="Dan Abrahmov"
-            name={"user"}
-            src=""
-            // src="https://bit.ly/dan-abramov"
+            name={account}
+            src={`https://api.multiavatar.com/${account}.png`}
           />
         )}
       </Box>

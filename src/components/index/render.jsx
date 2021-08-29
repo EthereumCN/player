@@ -24,14 +24,15 @@ const Render = ({ days, hours, minutes, seconds, data }) => {
       <Header data={"none"} />
 
       <Flex justifyContent="center" alignItems="center" color="#333">
-        <Icon
+        {/* <Icon
           color="#707070"
           fontSize="30px"
           as={GiAlarmClock}
           cursor="pointer"
-        />{" "}
-        <Box fontSize={{base:"23px",sm:"30px"}}>
-          &nbsp; {days} 天 {hours}小时 {minutes}分  {seconds}秒
+        />{" "} */}
+        <Image src="/clock.svg" alt="ecn" width={25} height={25} />
+        <Box fontSize={{ base: "23px", sm: "30px" }}>
+          &nbsp; {days} 天 {hours}小时 {minutes}分 {seconds}秒
         </Box>
       </Flex>
 
@@ -78,7 +79,7 @@ const Render = ({ days, hours, minutes, seconds, data }) => {
             />
           ),
           article: ({ node, ...props }) => (
-            <Box px={{ base: "1.5rem" }} pb="2rem" >
+            <Box px={{ base: "1.5rem" }} pb="2rem">
               <Box
                 fontWeight="bold"
                 maxW="910px"

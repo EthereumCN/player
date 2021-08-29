@@ -55,15 +55,21 @@ const LiveHeader = ({ data }) => {
     // >
     <>
       <Flex
-        h="75px"
+        h="80px"
         px={6}
         alignItems="center"
         justifyContent="space-between"
         display={{ base: "none", lg: "flex" }}
       >
         <Flex alignItems="center">
-          <Box as="span" onClick={() => router.push("/")} cursor="pointer">
-            <Image src="/ecn.png" alt="ecn" width={75} height={50} />
+          <Box
+            as="span"
+            onClick={() => {
+              window.open("https://ethereum.cn", "_blank").focus();
+            }}
+            cursor="pointer"
+          >
+            <Image src="/ecn.png" alt="ecn" width={100} height={95} />
           </Box>
           {data === "none" ? (
             <></>
@@ -71,17 +77,19 @@ const LiveHeader = ({ data }) => {
             <Box display={{ base: "none", lg: "block" }}>
               <Heading
                 ml={8}
-                fontSize="33px"
+                fontSize="25px"
                 fontWeight="bold"
                 alignItems="center"
                 color="#333"
+                letterSpacing="2px"
               >
                 {data.allHomepages[0].title}
               </Heading>
 
               <Flex alignItems="center">
                 <Text
-                  fontSize="18px"
+                  fontSize="16px"
+                  letterSpacing="2px"
                   ml={8}
                   alignItems="center"
                   lineHeight="21px"
@@ -92,21 +100,21 @@ const LiveHeader = ({ data }) => {
                 </Text>
 
                 <Box
-                  w="13px"
+                  w="10px"
                   ml={6}
                   mt={2}
-                  h="13px"
+                  h="10px"
                   bgColor="#E90000"
                   borderRadius="50%"
                 />
-
                 <Text
                   fontSize="14px"
-                  ml={4}
+                  ml={1}
                   alignItems="center"
                   lineHeight="21px"
                   color="#000"
                   mt={2}
+                  fontWeight="600"
                 >
                   Live
                 </Text>
@@ -159,30 +167,16 @@ const LiveHeader = ({ data }) => {
               </Box>
             )}
 
-            {active && account && (
-              <Avatar
-                cursor="pointer"
-                colorScheme="orange"
-                display={{ base: "none", lg: "inline-block" }}
-                size="xs"
-                // name="Dan Abrahmov"
-                name={"u" + randomNum(0, 100000000)}
-                src=""
-                onClick={onOpen}
-              />
-            )}
 
-            {/* {active && account && (
+            {active && account && (
               <>
-                {console.log(account)}
                 <Avatar
                   cursor="pointer"
                   colorScheme="orange"
                   display={{ base: "none", lg: "inline-block" }}
                   size="sm"
-                  // name="Dan Abrahmov"
-                  name={"u" + randomNum(0, 100000000)}
-                  src=""
+                  name={account}
+                  src={`https://api.multiavatar.com/${account}.png`}
                   onClick={onOpen}
                 />
 
@@ -190,11 +184,11 @@ const LiveHeader = ({ data }) => {
                   <ModalOverlay />
                   <ModalContent>
                     <ModalHeader>
-                      你好，{account.substr(account.length - 4)}
+                      Hello，{account.substr(account.length - 4)}
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody fontSize="1.5rem">
-                      点击领取poap ==&gt;
+                      Claim POAP =&gt;
                       <Box
                         as="span"
                         onClick={() => {
@@ -256,75 +250,8 @@ const LiveHeader = ({ data }) => {
                   </ModalContent>
                 </Modal>
               </>
-            )} */}
+            )}
           </Flex>
-
-          <Box h="8px" />
-          {active && account && (
-            <Flex
-              position="absolute"
-              right="0"
-              alignItems="center"
-              justifyContent="center"
-              bgColor="#FF7900"
-              borderRadius="8px"
-              w="89px"
-              h="22px"
-              color="#fff"
-              fontSize="12px"
-              fontWeight="500"
-              cursor="pointer"
-              onClick={() => {
-                axios({
-                  url: "https://graphql.us.fauna.com/graphql",
-                  method: "post",
-                  headers: {
-                    Authorization: `Basic Zm5BRVFlSkg5QUFBUU5MUGtlLV9RUC1FR0tfWk0tdlZWU21CZDd6Szo=`,
-                  },
-                  data: {
-                    query: `
-            query obtain {
-              obtain(user: "${account}" ){
-                title
-                user
-              }
-            }
-              `,
-                  },
-                }).then((response) => {
-                  if (response.data.data !== undefined) {
-                    toast({
-                      title: "通知.",
-                      description:
-                        "领取成功，正在尝试跳转，若无法跳转请复制后点击跳转" +
-                        response.data.data.obtain.title,
-                      status: "success",
-                      duration: null,
-                      isClosable: true,
-                    });
-
-                    setTimeout(function () {
-                      window
-                        .open(response.data.data.obtain.title, "_blank")
-                        .focus();
-                    }, 3000);
-                  } else {
-                    toast({
-                      title: "通知.",
-                      description: "领取失败",
-                      status: "error",
-                      duration: 9000,
-                      isClosable: true,
-                    });
-                  }
-                });
-              }}
-            >
-              Claim POAP
-            </Flex>
-          )}
-
-          <Box h="8px" />
         </Box>
 
         {/* </div> */}
